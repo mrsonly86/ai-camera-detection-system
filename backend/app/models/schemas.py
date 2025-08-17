@@ -9,7 +9,7 @@ from pydantic import BaseModel, Field
 # User Schemas
 class UserBase(BaseModel):
     username: str = Field(..., min_length=3, max_length=50)
-    email: str = Field(..., regex=r'^[^@]+@[^@]+\.[^@]+$')
+    email: str = Field(..., pattern=r'^[^@]+@[^@]+\.[^@]+$')
     full_name: Optional[str] = None
 
 
@@ -76,7 +76,7 @@ class DetectionSessionCreate(BaseModel):
 
 class DetectionSessionUpdate(BaseModel):
     session_name: Optional[str] = None
-    status: Optional[str] = Field(None, regex=r'^(active|completed|stopped)$')
+    status: Optional[str] = Field(None, pattern=r'^(active|completed|stopped)$')
 
 
 class DetectionSession(BaseModel):
@@ -126,7 +126,7 @@ class KnownPersonCreate(BaseModel):
     date_of_birth: Optional[datetime] = None
     nationality: Optional[str] = None
     is_wanted: bool = False
-    risk_level: Optional[str] = Field(None, regex=r'^(low|medium|high|critical)$')
+    risk_level: Optional[str] = Field(None, pattern=r'^(low|medium|high|critical)$')
     watch_list_category: Optional[str] = None
 
 
@@ -162,7 +162,7 @@ class KnownPerson(BaseModel):
 class AlertCreate(BaseModel):
     detection_id: int
     alert_type: str = Field(..., max_length=50)
-    severity: str = Field(..., regex=r'^(low|medium|high|critical)$')
+    severity: str = Field(..., pattern=r'^(low|medium|high|critical)$')
     title: str = Field(..., max_length=200)
     message: str
 
@@ -196,7 +196,7 @@ class CameraConfig(BaseModel):
 
 # AI Model Configuration Schemas
 class ModelConfig(BaseModel):
-    model_type: str = Field(..., regex=r'^(yolo|face_recognition|gender|age)$')
+    model_type: str = Field(..., pattern=r'^(yolo|face_recognition|gender|age)$')
     model_path: str
     confidence_threshold: float = Field(default=0.5, ge=0, le=1)
     nms_threshold: float = Field(default=0.4, ge=0, le=1)
